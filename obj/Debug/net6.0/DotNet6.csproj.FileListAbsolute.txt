@@ -39,3 +39,5 @@ D:\Source\.Net\DotNet6\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
 D:\Source\.Net\DotNet6\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Source\.Net\DotNet6\bin\Debug\net6.0\Newtonsoft.Json.dll
 D:\Source\.Net\DotNet6\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+D:\Source\.Net\DotNet6\bin\Debug\net6.0\DotNet6.xml
+D:\Source\.Net\DotNet6\obj\Debug\net6.0\DotNet6.xml
