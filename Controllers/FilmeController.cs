@@ -1,6 +1,8 @@
+using System;
 using DotNet6.Data.DTO.Filme;
 using DotNet6.Models;
 using DotNet6.Services.Filme;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNet6.Controllers;
@@ -54,6 +56,9 @@ public class FilmeController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    /**
+    Needs the whole object to do the update
+    */
     public IActionResult UpdateFilme(
         int id,
         [FromBody] UpdateFilmeDTO updateDTO
@@ -64,6 +69,40 @@ public class FilmeController : ControllerBase
         Filme? filme = this._service.UpdateFilme(id, updateDTO);
 
         if (filme != null)
+        {
+            result = NoContent();
+        }
+
+        return result;
+    }
+
+
+    [HttpPatch("{id}")]
+    /**
+    Only needs one property to update the object following the pattern below
+    [
+        {
+            "path": "/titulo",
+            "op": "replace",
+            "value": "Star wars"
+        },
+        {
+            "path": "/genero",
+            "op": "replace",
+            "value": "Ficção"
+        }
+    ]
+    */
+    public IActionResult UpdateFilmePatch(
+        int id,
+        JsonPatchDocument<UpdateFilmeDTO> patch        
+    )
+    {
+        IActionResult result = NotFound();
+
+        Boolean operationSucceeded = this._service.UpdateFilmePatch(id, patch);
+
+        if (operationSucceeded)
         {
             result = NoContent();
         }

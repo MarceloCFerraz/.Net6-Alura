@@ -6,6 +6,7 @@
         - Pomelo.EntityFrameworkCore.MySql -v 6.0.2
         - AutoMapper -v 12.0.0
         - AutoMapper.Extensions.Microsoft.DependencyInjection -v 12.0.0
+        - Microsoft.AspNetCore.Mvc.NewtonsoftJson -v 6.0.10 <IN CASE IT'S NECESSARY TO USE HTTP PATCH INSTEAD OF PUT>
 
     necessary tools for this project:
         - dotnet-ef -v 7.0.0
@@ -17,6 +18,7 @@
         - dotnet add package Pomelo.EntityFrameworkCore.MySql -v 6.0.2
         - dotnet add package AutoMapper -v 12.0.0
         - dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection -v 12.0.0
+        - dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson -v 6.0.10
         - dotnet tool install --global dotnet-ef -v 7.0.0
         - dotnet ef migrations add <NomeDaMigration>
         - dotnet ef database update
@@ -47,7 +49,7 @@ builder.Services.AddScoped<FilmeService, FilmeService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -1,6 +1,7 @@
 using AutoMapper;
 using DotNet6.Data;
 using DotNet6.Data.DTO.Filme;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace DotNet6.Services.Filme;
 
@@ -46,5 +47,25 @@ public class FilmeService
         _context.SaveChanges();
 
         return filme;
+    }
+
+    internal Boolean UpdateFilmePatch(int id, JsonPatchDocument<UpdateFilmeDTO> patch)
+    {
+        Boolean result = false;
+        Models.Filme? filme = _context.Filmes.FirstOrDefault(filme => filme.id == id);
+
+        if (filme != null)
+        {
+            UpdateFilmeDTO updateDTO = _mapper.Map<UpdateFilmeDTO>(filme);
+
+            patch.ApplyTo(updateDTO);
+
+            _mapper.Map(updateDTO, filme);
+            _context.SaveChanges();
+
+            result = true;
+        }
+
+        return result;
     }
 }
