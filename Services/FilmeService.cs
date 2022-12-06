@@ -25,18 +25,27 @@ public class FilmeService
         return filme;
     }
 
-    public Models.Filme? RecuperaFilmePorID(int id)
+    public ReadFilmeDTO? RecuperaFilmePorID(int id)
     {
         Models.Filme? filme = _context.Filmes.FirstOrDefault(filme => filme.id == id);
 
-        return filme;
+        ReadFilmeDTO? filmeDTO = null;
+
+        if (filme != null)
+        {
+            filmeDTO = _mapper.Map<ReadFilmeDTO>(filme);
+        }
+
+        return filmeDTO;
     }
 
-    public IEnumerable<Models.Filme>? RecuperaFilmes(int skip, int take)
+    public IEnumerable<ReadFilmeDTO>? RecuperaFilmes(int skip, int take)
     {
-        return _context.Filmes
-                .Skip(skip)
-                .Take(take);
+        var filmes = _context.Filmes.Skip(skip).Take(take);
+
+        List<ReadFilmeDTO> filmesDTO = _mapper.Map<List<ReadFilmeDTO>>(filmes);
+
+        return filmesDTO;
     }
 
     public Models.Filme? UpdateFilme(int id, UpdateFilmeDTO updateDTO)
@@ -49,9 +58,9 @@ public class FilmeService
         return filme;
     }
 
-    internal Boolean UpdateFilmePatch(int id, JsonPatchDocument<UpdateFilmeDTO> patch)
+    public bool UpdateFilmePatch(int id, JsonPatchDocument<UpdateFilmeDTO> patch)
     {
-        Boolean result = false;
+        bool result = false;
         Models.Filme? filme = _context.Filmes.FirstOrDefault(filme => filme.id == id);
 
         if (filme != null)
@@ -63,6 +72,22 @@ public class FilmeService
             _mapper.Map(updateDTO, filme);
             _context.SaveChanges();
 
+            result = true;
+        }
+
+        return result;
+    }
+
+    public bool DeleteFilme(int id)
+    {
+        bool result = false;
+
+        Models.Filme? filme = _context.Filmes.FirstOrDefault(filme => filme.id == id);
+
+        if (filme != null)
+        {
+            _context.Remove(filme);
+            _context.SaveChanges();
             result = true;
         }
 

@@ -32,7 +32,7 @@ public class FilmeController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Filme>? RecuperaFilmes(
+    public IEnumerable<ReadFilmeDTO>? RecuperaFilmes(
         [FromQuery] int skip=0,
         [FromQuery] int take=50
     )
@@ -45,11 +45,11 @@ public class FilmeController : ControllerBase
     {        
         IActionResult result = NotFound();
 
-        Filme? filme = this._service.RecuperaFilmePorID(id);
+        ReadFilmeDTO? filmeDTO = this._service.RecuperaFilmePorID(id);
 
-        if (filme != null) 
+        if (filmeDTO != null) 
         {
-            Ok(filme);
+            Ok(filmeDTO);
         }
         
         return result;
@@ -100,7 +100,22 @@ public class FilmeController : ControllerBase
     {
         IActionResult result = NotFound();
 
-        Boolean operationSucceeded = this._service.UpdateFilmePatch(id, patch);
+        bool operationSucceeded = this._service.UpdateFilmePatch(id, patch);
+
+        if (operationSucceeded)
+        {
+            result = NoContent();
+        }
+
+        return result;
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteFilme(int id)
+    {
+        IActionResult result = NotFound();
+
+        bool operationSucceeded = _service.DeleteFilme(id);
 
         if (operationSucceeded)
         {
