@@ -1,7 +1,6 @@
 using AutoMapper;
 using DotNet6.Data;
-using DotNet6.Data.DTO;
-using DotNet6.Models;
+using DotNet6.Data.DTO.Filme;
 
 namespace DotNet6.Services.Filme;
 
@@ -37,5 +36,15 @@ public class FilmeService
         return _context.Filmes
                 .Skip(skip)
                 .Take(take);
+    }
+
+    public Models.Filme? UpdateFilme(int id, UpdateFilmeDTO updateDTO)
+    {
+        Models.Filme? filme = _context.Filmes.FirstOrDefault(filme => filme.id == id);
+        
+        _mapper.Map(updateDTO, filme);
+        _context.SaveChanges();
+
+        return filme;
     }
 }

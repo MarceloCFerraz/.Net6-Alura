@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DotNet6.Data.DTO;
+namespace DotNet6.Data.DTO.Filme;
 
 public class NewFilmeDTO
 {

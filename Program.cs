@@ -24,6 +24,7 @@
 
 
 using DotNet6.Data;
+using DotNet6.Services.Filme;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,9 @@ builder.Services.AddDbContext<FilmeContext>(
 );
 
 // Add services to the container.
+// adding controllers services
+builder.Services.AddScoped<FilmeService, FilmeService>();
+
 // adding automapper service to the whole application
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -1,4 +1,4 @@
-using DotNet6.Data.DTO;
+using DotNet6.Data.DTO.Filme;
 using DotNet6.Models;
 using DotNet6.Services.Filme;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +39,7 @@ public class FilmeController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult RecuperaFilmePorID(/* [FromQuery] */ int id)
+    public IActionResult RecuperaFilmePorID(int id)
     {        
         IActionResult result = NotFound();
 
@@ -54,11 +54,19 @@ public class FilmeController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateFilme(int id)
+    public IActionResult UpdateFilme(
+        int id,
+        [FromBody] UpdateFilmeDTO updateDTO
+    )
     {
         IActionResult result = NotFound();
 
+        Filme? filme = this._service.UpdateFilme(id, updateDTO);
 
+        if (filme != null)
+        {
+            result = NoContent();
+        }
 
         return result;
     }
